@@ -51,8 +51,8 @@ def for_DBSCAN(X, threshold, crit):
         print(len(X_arr.Q))
         
         coords = X_arr.Q.index.to_frame(name=['y', 'x'], index=False)
-        coords['lat'] = X_arr.XLAT.values
         coords['lon'] = X_arr.XLONG.values
+        coords['lat'] = X_arr.XLAT.values
         coords['crit'] = X_arr.Q.values
         
     if crit=='delta':
@@ -63,8 +63,8 @@ def for_DBSCAN(X, threshold, crit):
         print(len(X_arr.delta))
 
         coords = X_arr.delta.index.to_frame(name=['y', 'x'], index=False)        
-        coords['lat'] = X_arr.XLAT.values
         coords['lon'] = X_arr.XLONG.values
+        coords['lat'] = X_arr.XLAT.values
         coords['crit'] = X_arr.delta.values
         
     if crit=='lambda2':
@@ -75,8 +75,8 @@ def for_DBSCAN(X, threshold, crit):
         print(len(X_arr.lambda2))
 
         coords = X_arr.lambda2.index.to_frame(name=['y', 'x'], index=False)
-        coords['lat'] = X_arr.XLAT.values
         coords['lon'] = X_arr.XLONG.values
+        coords['lat'] = X_arr.XLAT.values
         coords['crit'] = X_arr.lambda2.values
                 
 #     plt.scatter(coords['x'], coords['y'], c=coords['crit'], s=1)
