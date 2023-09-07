@@ -21,21 +21,10 @@ from tqdm import tqdm
 
 path_dir = '/storage/NAADSERVER/NAAD/HiRes/PressureLevels/'
 
-# level = int(input('Enter level: '))
-
-# year = int(input('Enter year: '))
-
-# month = int(input('Enter month number: '))
-
-# day = int(input('Enter start day: '))
-
-# period = int(input('Enter period (in days): '))
-
-# step = int(input('Enter time step (in days) (step=-1 for for continuous sequence): '))
+g = 9.80665
 
 
-
-# нормируем критерий
+# нормируем критерий к [0,1]
 def crit_log(Crit):
     Crit[Crit <= 0] = None
     log = np.log10(Crit)
@@ -47,7 +36,7 @@ def crit_stand(Crit):
     log_2 = (Crit - np.nanmean(Crit))/(np.std(Crit))
     return log_2
 
-# считаем детерминант для R
+# считаем детерминант для инварианта R
 def my_det(grad_tensor):
     a, b, c = grad_tensor[0,0], grad_tensor[0,1], grad_tensor[0,2]
     d, e, f = grad_tensor[1,0], grad_tensor[1,1], grad_tensor[1,2]
@@ -56,13 +45,7 @@ def my_det(grad_tensor):
     det = a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h
     return det
 
-
-
-g = 9.80665
-
-
-
-# считаем тензор градиента скорости
+# считаем тензор градиента скорости, grad_tensor.shape = (3,3,time,level,lat,lon)
 def compute_grad_tensor(u, v, w, dist_m, dz):
     true_ux, true_uy, true_uz = np.gradient(u, dist_m, dist_m, 1., axis=[3,2,1])
     true_vx, true_vy, true_vz = np.gradient(v, dist_m, dist_m, 1., axis=[3,2,1])
@@ -81,6 +64,20 @@ def compute_grad_tensor(u, v, w, dist_m, dz):
     
     return grad_tensor
 
+# считаем 2d тензор градиента скорости, grad_tensor.shape = (2,2,...,lat,lon)
+def compute_grad_tensor_2d(u, v, dist_m):
+    true_ux, true_uy = np.gradient(u, dist_m, dist_m, 1., axis=[-1,-2])
+    true_vx, true_vy = np.gradient(v, dist_m, dist_m, 1., axis=[-1,-2])
+    
+    # собрать в тензор
+    grad_tensor_2d = np.array([
+                            [true_ux, true_uy, ], 
+                            [true_vx, true_vy, ], 
+                       ])
+    
+    return grad_tensor_2d
+
+# считаем тензор скоростей деформации S и тензор завихренности A
 def compute_S_A(grad_tensor):
     s12 = 0.5*(grad_tensor[0,1] + grad_tensor[1,0])
     s13 = 0.5*(grad_tensor[0,2] + grad_tensor[2,0])
@@ -151,9 +148,7 @@ def compute_lambda2(S, A, normalize=True):
                         lambda2[f,i,j,k] = np.nan
                     else:
                         lambd = LA.eigvalsh(SA[f,i,j,k])
-                        lambda2[f,i,j,k] = lambd[1]
-                    
-                    
+                        lambda2[f,i,j,k] = lambd[1]       
 
     lambda2 = -lambda2
     if normalize:
