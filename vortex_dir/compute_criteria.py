@@ -87,8 +87,8 @@ def compute_grad_tensor(u, v, w, dist_m, dz):
 
 # считаем 2d тензор градиента скорости, grad_tensor.shape = (2,2,...,lat,lon)
 def compute_grad_tensor_2d(u, v, dist_m):
-    true_ux, true_uy = np.gradient(u, dist_m, dist_m, 1., axis=[-1,-2])
-    true_vx, true_vy = np.gradient(v, dist_m, dist_m, 1., axis=[-1,-2])
+    true_ux, true_uy = np.gradient(u, dist_m, dist_m, axis=[-1,-2])
+    true_vx, true_vy = np.gradient(v, dist_m, dist_m, axis=[-1,-2])
     
     # собрать в тензор
     grad_tensor_2d = np.array([
@@ -204,13 +204,42 @@ def compute_swirling_strength(grad_tensor):
                         
                         
     end = time.time() - start ## собственно время работы программы
-    print(f'swirling_strength computed ({end/60} min)') ## вывод времени
+    print(f'3d swirling_strength computed ({end/60} min)') ## вывод времени
     
     only_im = eigenvalues - np.real(eigenvalues) ## выделение мнимой части СЗ
     sw_str = np.abs(np.imag(only_im)[:,:,:,:,1])
     sw_str[sw_str <= 0.] = np.nan ## критерий > 0
     
     return sw_str, sw_vec_reoredered
+
+# считаем мнимую часть СЗ градиента скорости lambda_ci для 2d 
+def compute_swirling_strength_2d(grad_tensor):
+    
+    grad_tensor = grad_tensor.transpose(2, 3, 4, 5, 0, 1)
+    
+    start = time.time() ## точка отсчета времени
+
+    eigenvalues = np.zeros(shape=(grad_tensor.shape[0], grad_tensor.shape[1], grad_tensor.shape[2], grad_tensor.shape[3], 2), dtype = 'complex_')
+    
+    
+    for f in tqdm(range(grad_tensor.shape[0])):
+        for i in range(grad_tensor.shape[1]):
+            for j in range(grad_tensor.shape[2]):
+                for k in range(grad_tensor.shape[3]):
+                    if np.isnan(grad_tensor[f,i,j,k]).any() == True:
+                        eigenvalues[f,i,j,k,:] = np.nan                        
+                    else:
+                        lambd, eigv = LA.eig(grad_tensor[f,i,j,k])
+                        eigenvalues[f,i,j,k] = np.array(lambd, dtype = "complex_")
+                  
+    end = time.time() - start ## собственно время работы программы
+    print(f'2d swirling_strength computed ({end/60} min)') ## вывод времени
+    
+    only_im = eigenvalues - np.real(eigenvalues) ## выделение мнимой части СЗ
+    sw_str = np.abs(np.imag(only_im)[:,:,:,:,1])
+    sw_str[sw_str <= 0.] = np.nan ## критерий > 0
+    
+    return sw_str
 
 
 # считаем Rortex-критерий, Rortex > 0 - циклон, < 0 - АЦ
@@ -224,3 +253,8 @@ def compute_rortex(sw_str, sw_vec, omega):
     
     R = (1-np.sqrt(1-im_omega_part))*scalar
     return R
+
+# считаем 2d Rortex-критерий, Rortex > 0 - циклон, < 0 - АЦ
+def compute_rortex_2d(sw_str_2d, omega_2d):
+    R_2d = (1-np.sqrt(1-4*sw_str_2d*sw_str_2d/(omega_2d*omega_2d)))*omega_2d
+    return R_2d
