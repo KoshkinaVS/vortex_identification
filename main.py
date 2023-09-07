@@ -20,6 +20,10 @@ from tqdm import tqdm
 from vortex_dir.load_data import *
 from vortex_dir.compute_criteria import *
 
+# Ignore warnings
+import warnings
+warnings.filterwarnings("ignore")
+
 
 param = 5 # indent from the horizontal boundaries of the domain
 
@@ -56,24 +60,46 @@ dz = np.abs(np.gradient(ds.geopotential, 1., axis = [1]))/g
 
 grad_tensor = compute_grad_tensor(ds['ue'], ds['ve'], ds['w'], dist_m, dz)
 
-S, A = compute_S_A(grad_tensor)
 
-Q = compute_Q(S, A)
+############# расчет 3 базовых критериев ###################
 
-ds['Q'] = ({'Time': len(ds.Time), 'interp_level': len(ds.interp_level), 
-            'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, Q)
+# S, A = compute_S_A(grad_tensor)
 
-delta = compute_delta(grad_tensor, S, A)
+# Q = compute_Q(S, A)
 
-ds['delta'] = ({'Time': len(ds.Time), 'interp_level': len(ds.interp_level), 
-                'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, delta)
+# ds['Q'] = ({'Time': len(ds.Time), 'interp_level': len(ds.interp_level), 
+#             'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, Q)
 
-lambda2 = compute_lambda2(S, A)
+# delta = compute_delta(grad_tensor, S, A)
 
-ds['lambda2'] = ({'Time': len(ds.Time), 
+# ds['delta'] = ({'Time': len(ds.Time), 'interp_level': len(ds.interp_level), 
+#                 'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, delta)
+
+# lambda2 = compute_lambda2(S, A)
+
+# ds['lambda2'] = ({'Time': len(ds.Time), 
+#                   'interp_level': len(ds.interp_level), 
+#                   'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, lambda2)
+
+##################################
+
+
+
+############# расчет swirling_strength и rortex ###################
+
+omega = compute_omega(ds, dist_m, dz)
+
+sw_str, sw_vec_reoredered = compute_swirling_strength(grad_tensor)
+
+ds['sw_str'] = ({'Time': len(ds.Time), 
                   'interp_level': len(ds.interp_level), 
-                  'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, lambda2)
+                  'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, sw_str)
 
+R = compute_rortex(sw_str, sw_vec_reoredered, omega)
+
+ds['R'] = ({'Time': len(ds.Time), 
+                  'interp_level': len(ds.interp_level), 
+                  'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, R)
 
 path_dir = '/storage/kubrick/vkoshkina/data'
 # собираем в файлик
