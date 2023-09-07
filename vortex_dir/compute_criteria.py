@@ -45,12 +45,12 @@ def my_det(grad_tensor):
     det = a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h
     return det
 
-# считаем завихренность
+# считаем завихренность, omega.shape = (time,level,lat,lon,3)
 def compute_omega(ds):    
     vx = np.gradient(ds.ve, dist_m, axis=3)
     uy = np.gradient(ds.ue, dist_m, axis=2)
     
-    ds['omega_z'] = (('Time', 'interp_level', 'south_north', 'west_east'), vx - uy)
+    omega_z = vx - uy
 
     wy = np.gradient(ds.w, dist_m, axis=2)
     vz = np.gradient(ds.ve, 1., axis=1)/dz
@@ -58,8 +58,13 @@ def compute_omega(ds):
     uz = np.gradient(ds.ue, 1., axis=1)/dz
     wx = np.gradient(ds.w, dist_m, axis=3)
     
-    ds['omega_x'] = (('Time', 'bottom_top', 'south_north', 'west_east'), wy - vz)
-    ds['omega_y'] = (('Time', 'bottom_top', 'south_north', 'west_east'), uz - wx)
+    omega_x = wy - vz
+    omega_y = uz - wx
+    
+    omega = np.array([omega_x, omega_y, omega_z])
+    omega = omega.transpose(1, 2, 3, 4, 0)
+    
+    return omega
 
 # считаем тензор градиента скорости, grad_tensor.shape = (3,3,time,level,lat,lon)
 def compute_grad_tensor(u, v, w, dist_m, dz):
