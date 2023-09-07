@@ -176,7 +176,51 @@ def compute_lambda2(S, A, normalize=True):
         lambda2 = crit_log(lambda2)
     return lambda2
 
+# считаем мнимую часть СЗ градиента скорости lambda_ci и действительнозначный СВ - отвечает за ось вращения
+def compute_swirling_strength(grad_tensor):
+    
+    grad_tensor = grad_tensor.transpose(2, 3, 4, 5, 0, 1)
+    
+    start = time.time() ## точка отсчета времени
+
+    eigenvalues = np.zeros(shape=(grad_tensor.shape[0], grad_tensor.shape[1], grad_tensor.shape[2], grad_tensor.shape[3], 3), dtype = 'complex_')
+    sw_vec_reoredered = np.zeros(shape=(grad_tensor.shape[0], grad_tensor.shape[1], grad_tensor.shape[2], grad_tensor.shape[3], 3))
+    
+    
+    for f in tqdm(range(grad_tensor.shape[0])):
+        for i in range(grad_tensor.shape[1]):
+            for j in range(grad_tensor.shape[2]):
+                for k in range(grad_tensor.shape[3]):
+                    if np.isnan(grad_tensor[f,i,j,k]).any() == True:
+                        eigenvalues[f,i,j,k,:] = np.nan
+                        sw_vec_reoredered[f,i,j,k] = np.nan
+                        
+                    else:
+                        lambd, eigv = LA.eig(grad_tensor[f,i,j,k])
+                        eigenvalues[f,i,j,k] = np.array(lambd, dtype = "complex_")
+                
+                        order = np.argsort(np.imag(eigenvalues[f,i,j,k]))
+                        sw_vec_reoredered[f,i,j,k] = np.array(eigv)[:,order][:,1]
+                        
+                        
+    end = time.time() - start ## собственно время работы программы
+    print(f'swirling_strength computed ({end/60} min)') ## вывод времени
+    
+    only_im = eigenvalues - np.real(eigenvalues) ## выделение мнимой части СЗ
+    sw_str = np.abs(np.imag(only_im)[:,:,:,:,1])
+    sw_str[sw_str <= 0.] = np.nan ## критерий > 0
+    
+    return sw_str, sw_vec_reoredered
 
 
-# print(season + ' criteria were computed')
-
+# считаем Rortex-критерий, Rortex > 0 - циклон, < 0 - АЦ
+def compute_rortex(sw_str, sw_vec, omega):
+    scalar = np.einsum('ijlmk,ijlmk->ijlm', omega, sw_vec)
+#     sign_u_r = np.where(np.repeat(scalar[:,:,:,:,np.newaxis], 3, axis=4) > 0, sw_vec, -sw_vec)
+    scalar_sq = scalar*scalar
+#     scalar_sq[scalar_sq < 1e-16] = None
+    im_omega_part = 4*sw_str*sw_str/(scalar*scalar)
+#     sign_u_r_simple = np.where(scalar[:,:,:,:] > 0, 1, -1)
+    
+    R = (1-np.sqrt(1-im_omega_part))*scalar
+    return R
