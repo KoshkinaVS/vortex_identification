@@ -56,13 +56,7 @@ dz = np.abs(np.gradient(ds.geopotential, 1., axis = [1]))/g
 
 grad_tensor = compute_grad_tensor(ds['ue'], ds['ve'], ds['w'], dist_m, dz)
 
-# print(np.allclose(grad_tensor, grad_tensor_true, equal_nan=True))
-
 S, A = compute_S_A(grad_tensor)
-
-# print(np.allclose(S, S_true, equal_nan=True))
-# print(np.allclose(A, A_true, equal_nan=True))
-
 
 Q = compute_Q(S, A)
 
@@ -70,16 +64,20 @@ ds['Q'] = ({'Time': len(ds.Time), 'interp_level': len(ds.interp_level),
             'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, Q)
 
 delta = compute_delta(grad_tensor, S, A)
+
 ds['delta'] = ({'Time': len(ds.Time), 'interp_level': len(ds.interp_level), 
                 'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, delta)
 
 lambda2 = compute_lambda2(S, A)
+
 ds['lambda2'] = ({'Time': len(ds.Time), 
                   'interp_level': len(ds.interp_level), 
                   'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, lambda2)
 
+
+path_dir = '/storage/kubrick/vkoshkina/data'
 # собираем в файлик
-ds.to_netcdf(f'./test_data/{year}/{name}_{season}_criteria_HiRes.nc', mode='w')
+ds.to_netcdf(f'{path_dir}/{year}/{name}_{season}_criteria_HiRes.nc', mode='w')
 
 end = time.time() - start ## собственно время работы программы
 
