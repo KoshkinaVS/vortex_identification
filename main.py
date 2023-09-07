@@ -60,6 +60,8 @@ dz = np.abs(np.gradient(ds.geopotential, 1., axis = [1]))/g
 
 grad_tensor = compute_grad_tensor(ds['ue'], ds['ve'], ds['w'], dist_m, dz)
 
+grad_tensor_2d = compute_grad_tensor_2d(ds['ue'], ds['ve'], dist_m)
+
 
 ############# расчет 3 базовых критериев ###################
 
@@ -100,6 +102,19 @@ R = compute_rortex(sw_str, sw_vec_reoredered, omega)
 ds['R'] = ({'Time': len(ds.Time), 
                   'interp_level': len(ds.interp_level), 
                   'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, R)
+
+################ 2d расчет swirling_strength и rortex ###################
+sw_str_2d = compute_swirling_strength_2d(grad_tensor_2d)
+
+ds['sw_str_2d'] = ({'Time': len(ds.Time), 
+                  'interp_level': len(ds.interp_level), 
+                  'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, sw_str_2d)
+
+R_2d = compute_rortex_2d(sw_str_2d, omega[:,:,:,:,2])
+
+ds['R_2d'] = ({'Time': len(ds.Time), 
+                  'interp_level': len(ds.interp_level), 
+                  'south_north': len(ds.south_north), 'west_east': len(ds.west_east)}, R_2d)
 
 path_dir = '/storage/kubrick/vkoshkina/data'
 # собираем в файлик
