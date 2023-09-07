@@ -46,7 +46,7 @@ def my_det(grad_tensor):
     return det
 
 # считаем завихренность, omega.shape = (time,level,lat,lon,3)
-def compute_omega(ds):    
+def compute_omega(ds, dist_m, dz):    
     vx = np.gradient(ds.ve, dist_m, axis=3)
     uy = np.gradient(ds.ue, dist_m, axis=2)
     
