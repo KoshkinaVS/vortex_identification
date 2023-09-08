@@ -81,6 +81,19 @@ def clustering_DBSCAN(coords_lambda2, eps=10., min_samples=10, metric='euclidean
         
     return coords_lambda2, n_clusters_lambda2
 
+# filter out noise points, CSs < given number
+def DBSCAN_filter(coords_lambda2, points=40):
+    coords_lambda2 = coords_lambda2.drop(np.where(coords_lambda2['cluster'] == -1)[0])
+    clusters = coords_lambda2.groupby('cluster').count()
+    true_clusters = clusters[clusters['lat'] >= points]
+    true_index = true_clusters.index.values
+    
+    n_clusters = len(true_clusters)
+    
+    coords_lambda2 = coords_lambda2.where(coords_lambda2.cluster.isin(true_index))
+    coords_lambda2 = coords_lambda2.dropna()
+    return coords_lambda2, n_clusters
+
 
 def get_boundary_polyg(clst_coords):
     
