@@ -40,47 +40,20 @@ def get_curr_date(ds, our_time):
     date = np.datetime_as_string(ds.XTIME[our_time].values, unit='m')
     return date
 
+# TODO: add 3dclustering
 
+# get coords for clustering after th, X.shape = (y,x), crit - name like in ds Data variables
 def for_DBSCAN(X, threshold, crit):
+    X_arr = X.to_dataframe().dropna(how='any')
+    print(f'points before th: {len(X_arr[crit])}')
+    X_arr[crit][np.abs(X_arr[crit]) < threshold] = None
+    X_arr = X_arr.dropna(how='any')
+    print(f'points after th: {len(X_arr[crit])}')
     
-    if crit=='Q':
-        X_arr = X.to_dataframe().dropna(how='any')
-        print(len(X_arr.Q))
-        X_arr.Q[X_arr.Q < threshold] = None
-        X_arr = X_arr.dropna(how='any')
-        print(len(X_arr.Q))
-        
-        coords = X_arr.Q.index.to_frame(name=['y', 'x'], index=False)
-        coords['lon'] = X_arr.XLONG.values
-        coords['lat'] = X_arr.XLAT.values
-        coords['crit'] = X_arr.Q.values
-        
-    if crit=='delta':
-        X_arr = X.to_dataframe().dropna(how='any')
-        print(len(X_arr.delta))
-        X_arr.delta[X_arr.delta < threshold] = None
-        X_arr = X_arr.dropna(how='any')
-        print(len(X_arr.delta))
-
-        coords = X_arr.delta.index.to_frame(name=['y', 'x'], index=False)        
-        coords['lon'] = X_arr.XLONG.values
-        coords['lat'] = X_arr.XLAT.values
-        coords['crit'] = X_arr.delta.values
-        
-    if crit=='lambda2':
-        X_arr = X.to_dataframe().dropna(how='any')
-        print(len(X_arr.lambda2))
-        X_arr.lambda2[X_arr.lambda2 < threshold] = None
-        X_arr = X_arr.dropna(how='any')
-        print(len(X_arr.lambda2))
-
-        coords = X_arr.lambda2.index.to_frame(name=['y', 'x'], index=False)
-        coords['lon'] = X_arr.XLONG.values
-        coords['lat'] = X_arr.XLAT.values
-        coords['crit'] = X_arr.lambda2.values
-                
-#     plt.scatter(coords['x'], coords['y'], c=coords['crit'], s=1)
-#     plt.show()
+    coords = X_arr[crit].index.to_frame(name=['y', 'x'], index=False)
+    coords['lon'] = X_arr.XLONG.values
+    coords['lat'] = X_arr.XLAT.values
+    coords['crit'] = X_arr[crit].values  
     
     return coords
 
