@@ -295,6 +295,79 @@ def get_stat(coords_Q_cluster, n_clusters_Q, dist_m):
     return stat
 
 
+# compute simple statistic for each cluster without boundary
+def get_simple_stat(coords_Q_cluster, n_clusters_Q, dist_m):
+
+    centroid_lat = []
+    centroid_lon = []
+    centroid_idx = []  
+    
+    centroid_x = []
+    centroid_y = []
+    
+    crit_centroid_x = []
+    crit_centroid_y = []
+    
+    radius_eff = []
+    
+    
+    for n in range(n_clusters_Q):
+    
+        coords_Q_c = coords_Q_cluster[coords_Q_cluster['cluster'] == n]
+        
+        if len(coords_Q_c) >= 10:
+            
+            N_points = len(coords_Q_c)
+            
+            rad = np.sqrt(N_points/np.pi)*dist_m/1000
+            radius_eff.append(rad)
+            
+            centroid_idx.append(n)
+        
+            x_c = coords_Q_c.x.mean()
+            y_c = coords_Q_c.y.mean()
+            
+            lon_c = coords_Q_c.lon.mean()
+            lat_c = coords_Q_c.lat.mean()
+            
+            centroid_lat.append(lat_c)
+            centroid_lon.append(lon_c)
+            
+            centroid_x.append(x_c)
+            centroid_y.append(y_c)
+            
+            crit_max = np.max(coords_Q_c.crit)
+            center = coords_Q_c[coords_Q_c['crit'] == crit_max]
+            crit_centroid_x.append(float(center.x))
+            crit_centroid_y.append(float(center.y))
+            
+
+        else:      
+            centroid_idx.append(None)
+            centroid_lat.append(None)
+            centroid_lon.append(None)
+            centroid_x.append(None)
+            centroid_y.append(None)
+            crit_centroid_x.append(None)
+            crit_centroid_y.append(None)
+            
+            radius_eff.append(None)
+            
+        
+    
+    stat = pd.DataFrame({'cluster': centroid_idx, 
+                         'x': centroid_x, 'y': centroid_y,
+                         'x_crit': crit_centroid_x, 'y_crit': crit_centroid_y,
+                         'lon': centroid_lon, 'lat': centroid_lat,
+                         'rad_eff': radius_eff,
+                        })
+    
+    
+    stat = stat.dropna()   
+    
+    return stat
+
+
 
 def get_spline(ds, year=2010, folder='DBSCAN_7_2_50', grad=False): 
 
