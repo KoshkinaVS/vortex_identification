@@ -94,6 +94,29 @@ def show_DBSCAN_centers(coords_lambda2, stat_lambda2, ds, our_time):
 #     plt.savefig(f"../data/CCA{area:02d}-DBS{min_samples:02d}-{eps:02d}.png", dpi=500, bbox_inches="tight", transparent=True)
 
 
+# визуализация DBSCAN кластеризации на карте
+def show_DBSCAN_map(ds, our_time, coords_lambda2, n_clusters, th_lambda2, crit):
+    fig = plt.figure(figsize=(10,10))
+
+    ax = fig.add_subplot(111, projection=ccrs.Stereographic(central_latitude=45.0, central_longitude=-45))
+    ax.set_global()
+    ax.coastlines(color='k', alpha=0.7)
+    gl = ax.gridlines(draw_labels=True,
+                 linewidth=3, color='k', alpha=0.5, linestyle='--')
+    
+    cmap = plt.cm.get_cmap(cmaps.psgcap, max(coords_lambda2['cluster'])+1)
+    Qcr = ax.scatter(coords_lambda2.lon, coords_lambda2.lat, c=coords_lambda2.cluster, s=1, cmap=cmap,
+                      transform=ccrs.PlateCarree())
+    
+    ax.tick_params(axis='both', which='both', direction='in', labelsize=9)
+    ax.legend(title='$N=$'+str(n_clusters), title_fontsize=15, loc='lower left')
+    
+    ax.set_extent([np.min(ds.XLONG[our_time][0])-3, -13, np.min(ds.XLAT[our_time])+4, np.max(ds.XLAT[our_time][-1])], 
+              ccrs.PlateCarree())
+    
+#     plt.xlim(100,200)
+#     plt.ylim(50,150)
+    plt.title(f'${crit}$>'+str(th_lambda2)[:5], fontsize=20)
 
     
   
