@@ -1,5 +1,5 @@
 # vortex_identification
-Implementation of Eulerian criteria (Q, delta and lambda_2)
+Implementation of Eulerian criteria (Q, $\Delta$, $\lambda_2$, swirling strength ($\lambda_{ci}$) and Rortex)
 
 # Структура
 `main.py` содержит пример применения критериев на данных NAAD. Итогом работы скрипта является массив критериев в формате NetCDF.
@@ -12,4 +12,7 @@ Implementation of Eulerian criteria (Q, delta and lambda_2)
   ВНИМАНИЕ: функции корректно работают преимущественно для массивов с shape=(time, level, y, x)
 
 - `vortex_processing.py` - функции постобработки массивов критериев - кластеризация КС, расчет статистики
-- `show_vortex.py` - функции отрисовки выделенных КС (требудет доработки)
+  
+  ВНИМАНИЕ: функции корректно работают преимущественно для массивов с shape=(y, x)
+
+- `show_vortex.py` - функции отрисовки выделенных КС (требует доработки)
