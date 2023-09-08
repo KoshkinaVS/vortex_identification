@@ -33,6 +33,7 @@ import cmaps
 
 from sklearn.cluster import DBSCAN
 
+# визуализация центров и номеров кластеров DBSCAN
 def show_centroids(coords_Q, stat, crit):
     fig = plt.figure(figsize=(10, 10), dpi=300)
     ax = fig.add_subplot(1, 1, 1)
