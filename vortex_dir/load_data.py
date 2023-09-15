@@ -51,13 +51,20 @@ def get_season(year, month, day):
 
 # month = int(input('Enter month number: '))
 
-param = 5 # indent from the horizontal boundaries of the domain
+# param = 5 # indent from the horizontal boundaries of the domain
 
 
 start = time.time() 
 
+
 # open several days in a row, return dataset and horizontal grid spacing
-def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param):
+def open_full_dataset_nc(path_dir, name, step, period, param=5):
+    ds = xr.open_dataset(f"{path_dir}/{name}.nc")
+    dist_m = 15000 # 15 km ?
+    return ds, dist_m
+
+# open several days in a row, return dataset and horizontal grid spacing
+def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param=5):
         
     date = datetime.date(year, month, day)
     geopotential = xr.open_dataset(path_dir + f'geopotential/{year}/geopotential_' + str(date) + '.nc')
@@ -108,7 +115,7 @@ def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param):
     return ds, dist_m
 
 # open period with given time step at 12:00 UTC, return dataset and horizontal grid spacing
-def open_step_dataset_NAAD(path_dir, year, month, day, step, param, period, crit):
+def open_step_dataset_NAAD(path_dir, year, month, day, step, param=5, period, crit):
     
     date = datetime.date(year, month, day)
     
