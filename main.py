@@ -51,7 +51,7 @@ if step == -1:
 else:
     ds, dist_m = open_step_dataset_NAAD(path_dir, year, month, day, step=step, param=param, period=period, crit='HiRes') # период с шагом
 
-print(f'ds.shape: {ds.ue.shape}')
+print(f'ds.dims: {ds.dims}')
 
 g = 9.80665
 # шаг по вертикали в hPa
