@@ -89,7 +89,7 @@ grad_tensor_2d = compute_grad_tensor_2d(ds['ue'], ds['ve'], dist_m)
 
 ############# расчет swirling_strength и rortex ###################
 
-omega = compute_omega(ds, dist_m, dz)
+omega = compute_omega(ds.ue, ds.ve, ds.w, dist_m, dz)
 
 sw_str, sw_vec_reoredered = compute_swirling_strength(grad_tensor)
 
