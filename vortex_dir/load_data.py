@@ -58,13 +58,13 @@ start = time.time()
 
 
 # open several days in a row, return dataset and horizontal grid spacing
-def open_full_dataset_nc(path_dir, name, step, period, param=5):
+def open_full_dataset_nc(path_dir, name, step):
     ds = xr.open_dataset(f"{path_dir}/{name}.nc")
     dist_m = 15000 # 15 km ?
     return ds, dist_m
 
 # open several days in a row, return dataset and horizontal grid spacing
-def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param=5):
+def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param):
         
     date = datetime.date(year, month, day)
     geopotential = xr.open_dataset(path_dir + f'geopotential/{year}/geopotential_' + str(date) + '.nc')
@@ -115,7 +115,7 @@ def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param=5):
     return ds, dist_m
 
 # open period with given time step at 12:00 UTC, return dataset and horizontal grid spacing
-def open_step_dataset_NAAD(path_dir, year, month, day, step, param=5, period, crit):
+def open_step_dataset_NAAD(path_dir, year, month, day, step, param, period, crit):
     
     date = datetime.date(year, month, day)
     
