@@ -19,7 +19,7 @@ from tqdm import tqdm
 
 # from load_data import *
 
-path_dir = '/storage/NAADSERVER/NAAD/HiRes/PressureLevels/'
+# path_dir = '/storage/NAADSERVER/NAAD/HiRes/PressureLevels/'
 
 g = 9.80665
 
@@ -46,17 +46,17 @@ def my_det(grad_tensor):
     return det
 
 # считаем завихренность, omega.shape = (time,level,lat,lon,3)
-def compute_omega(ds, dist_m, dz):    
-    vx = np.gradient(ds.ve, dist_m, axis=3)
-    uy = np.gradient(ds.ue, dist_m, axis=2)
+def compute_omega(u, v, w, dist_m, dz):    
+    vx = np.gradient(v, dist_m, axis=3)
+    uy = np.gradient(u, dist_m, axis=2)
     
     omega_z = vx - uy
 
-    wy = np.gradient(ds.w, dist_m, axis=2)
-    vz = np.gradient(ds.ve, 1., axis=1)/dz
+    wy = np.gradient(w, dist_m, axis=2)
+    vz = np.gradient(v, 1., axis=1)/dz
     
-    uz = np.gradient(ds.ue, 1., axis=1)/dz
-    wx = np.gradient(ds.w, dist_m, axis=3)
+    uz = np.gradient(u, 1., axis=1)/dz
+    wx = np.gradient(w, dist_m, axis=3)
     
     omega_x = wy - vz
     omega_y = uz - wx
