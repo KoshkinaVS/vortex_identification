@@ -66,6 +66,17 @@ def compute_omega(u, v, w, dist_m, dz):
     
     return omega
 
+# считаем 2d завихренность (z-компонента), omega.shape = (time,level,lat,lon,1)
+def compute_omega_2d(u, v, w, dist_m):    
+    vx = np.gradient(v, dist_m, axis=3)
+    uy = np.gradient(u, dist_m, axis=2)
+    
+    omega_z = vx - uy
+    print(omega_z.shape)
+    omega_z = omega_z.transpose(1, 2, 3, 4, 0)
+    
+    return omega_z
+
 # считаем тензор градиента скорости, grad_tensor.shape = (3,3,time,level,lat,lon)
 def compute_grad_tensor(u, v, w, dist_m, dz):
     true_ux, true_uy, true_uz = np.gradient(u, dist_m, dist_m, 1., axis=[3,2,1])
