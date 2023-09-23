@@ -63,6 +63,14 @@ def open_full_dataset_nc(path_dir, name, step):
     dist_m = 15000 # 15 km ?
     return ds, dist_m
 
+# open period with given time step at 12:00 UTC, return dataset and horizontal grid spacing
+def open_step_dataset_nc(path_dir, name, step):
+    ds = xr.open_dataset(f"{path_dir}/{name}.nc")
+    ds_mini = ds.isel(time=(ds.time.dt.month == 8))
+    ds_mini = ds_mini.isel(time=(ds_mini.time.dt.day > 23))
+    dist_m = 13897.18
+    return ds_mini, dist_m
+
 # open several days in a row, return dataset and horizontal grid spacing
 def open_full_dataset_NAAD(path_dir, year, month, day, step, period, param):
         
