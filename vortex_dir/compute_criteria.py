@@ -135,6 +135,26 @@ def compute_S_A(grad_tensor):
     
     return S, A
 
+# считаем тензор скоростей деформации S и тензор завихренности A
+def compute_S_A_2d(grad_tensor):
+    s12 = 0.5*(grad_tensor[0,1] + grad_tensor[1,0])
+    
+    S = np.array([
+                [grad_tensor[0,0], s12], 
+                [s12, grad_tensor[1,1]], 
+             ])
+    
+    a12 = 0.5*(grad_tensor[0,1] - grad_tensor[1,0])
+    
+    diag_0 = np.zeros(shape=(grad_tensor.shape[2], grad_tensor.shape[3], grad_tensor.shape[4], grad_tensor.shape[5]))
+
+    A = np.array([
+                [diag_0, a12], 
+                [-a12, diag_0], 
+             ])
+    
+    return S, A
+
 # считаем Q-критерий
 def compute_Q(S, A, normalize=True):
 
@@ -149,9 +169,12 @@ def compute_Q(S, A, normalize=True):
     return Q
 
 # считаем delta-критерий
-def compute_delta(grad_tensor, S, A, normalize=True):
+def compute_delta(grad_tensor, S, A, normalize=True, case='3d'):
 
-    R = my_det(grad_tensor)
+    if case == '2d':
+        R = grad_tensor[0,0]*grad_tensor[1,1] - grad_tensor[1,0]*grad_tensor[0,1]
+    else:
+        R = my_det(grad_tensor)
     Q = compute_Q(S, A, normalize=False)
 
     delta = (Q/3)**3 + (0.5*R)**2
