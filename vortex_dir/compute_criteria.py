@@ -67,7 +67,7 @@ def compute_omega(u, v, w, dist_m, dz):
     return omega
 
 # считаем 2d завихренность (z-компонента), omega.shape = (time,level,lat,lon,1)
-def compute_omega_2d(u, v, w, dist_m):    
+def compute_omega_2d(u, v, dist_m):    
     vx = np.gradient(v, dist_m, axis=3)
     uy = np.gradient(u, dist_m, axis=2)
     
