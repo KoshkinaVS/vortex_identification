@@ -8,6 +8,7 @@ Implementation of Eulerian vortex identification criteria
 
 # Структура
 
+```python
 ├── examples
 │ └── compute_rortex_year.py
 └── vortex_dir
@@ -15,6 +16,8 @@ Implementation of Eulerian vortex identification criteria
     ├── compute_criteria.py
     ├── vortex_processing.py
     └── show_vortex.py
+```
+
 
 ## Расчет КВС
 Папка `vortex_dir` содержит функции обработки данных:
