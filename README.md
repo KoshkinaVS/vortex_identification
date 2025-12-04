@@ -66,9 +66,9 @@ Q = \frac{1}{2}(||\Omega||^2 - ||S||^2)
 where $\Omega$ is the vorticity tensor and $S$ is the strain rate tensor.
 
 ### 2. Δ-Criterion
-Based on the discriminant of the velocity gradient tensor $\nabla u$:
+Based on the discriminant of the velocity gradient tensor $\nabla \vec{u}$:
 ```math
-\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla u)}{2}\right)^2
+\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla \vec{u})}{2}\right)^2
 ```
 
 ### 3. $\lambda_2$-Criterion
@@ -83,7 +83,7 @@ Measures the local rigid rotation part of the velocity gradient, providing both 
 R = \vec{\omega} \cdot \vec{u_r} - \sqrt{(\vec{\omega} \cdot \vec{u_r})^2 - 4 \lambda_{ci}^2},
 \vec{R} = R \cdot \vec{u_r}
 ```
-where $\boldsymbol{\omega}$ is the vorticity vector, $\mathbf{u_r}$ - normalized eigenvector of $\nabla \mathbf{u}$ and $\lambda_{ci}$ is the swirling strength criterion. The vortex region is a region, where $R \neq 0$.
+where $\vec{\omega}$ is the vorticity vector, $\vec{u_r}$ - normalized eigenvector of $\nabla \vec{u}$ and $\lambda_{ci}$ is the swirling strength criterion. The vortex region is a region, where $R \neq 0$.
 
 ## Output Format
 
