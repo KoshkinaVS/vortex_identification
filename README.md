@@ -61,21 +61,28 @@ This script produces NetCDF files containing computed criteria arrays for furthe
 ### 1. Q-Criterion
 Identifies vortices as regions where the rotation rate tensor dominates the strain rate tensor:
 ```math
-Q = \frac{1}{2}(||\Omega||^2 - ||S||^2)
+Q = \frac{1}{2}(||\Omega||^2 - ||S||^2) > 0
 ```
 where $\Omega$ is the vorticity tensor and $S$ is the strain rate tensor.
 
 ### 2. Δ-Criterion
 Based on the discriminant of the velocity gradient tensor $\nabla \vec{u}$:
 ```math
-\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla \vec{u})}{2}\right)^2
+\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla \vec{u})}{2}\right)^2 > 0
 ```
 
 ### 3. $\lambda_2$-Criterion
-Identifies vortices as connected regions with negative second eigenvalue $\lambda_2$ of $S^2 + \Omega^2$.
+Identifies vortices as connected regions with negative second eigenvalue $\lambda_2$ of $S^2 + \Omega^2$:
+```math
+\lambda_2 > 0
+```
 
 ### 4. Swirling Strength ($\lambda_{ci}$)
-The imaginary part of the complex eigenvalue pair of the velocity gradient tensor.
+Similar to the $\Delta$-criterion, $\lambda_{ci}$-criterion defines a vortex core to be the region, where $\nabla \vec{u}$ has complex eigenvalues:
+```math
+\lambda_{ci} > 0
+```
+
 
 ### 5. Rortex Criterion
 Measures the local rigid rotation part of the velocity gradient, providing both magnitude and direction.
