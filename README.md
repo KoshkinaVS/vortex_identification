@@ -49,8 +49,6 @@ Dependencies include: `numpy`, `scipy`, `xarray`, `netCDF4`, `scikit-learn`, `ma
 
 ## Usage
 
-### Basic Workflow
-
 
 ### Example Application
 
