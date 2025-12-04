@@ -100,20 +100,6 @@ Results are saved in NetCDF format with the following structure:
 - Attributes: Metadata including calculation parameters and data sources
 
 
-## Citing This Work
-
-If you use this software in your research, please cite:
-
-```
-@software{vortex_identification,
-  title = {Vortex Identification: Eulerian Methods for Atmospheric Coherent Vortical Structures},
-  author = {Your Name},
-  year = {2023},
-  url = {https://github.com/yourusername/vortex_identification}
-}
-```
-
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
