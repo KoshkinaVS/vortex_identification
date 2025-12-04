@@ -4,7 +4,7 @@ Implementation of Eulerian vortex identification criteria for atmospheric cohere
 
 ## Overview
 
-This repository provides tools for analyzing mesoscale coherent vortical structures (CVS) in the atmosphere using Eulerian vortex identification methods. The implementation includes calculations of Q-criterion, Δ-criterion, $\lambda_2$-criterion, swirling strength ($\lambda_ci$), and Rortex criteria based on numerical atmospheric data (accepting 2D or 3D velocity fields). Additionally, functions for computing primary CVS statistics (size, shape, thermodynamic parameters) are provided.
+This repository provides tools for analyzing mesoscale coherent vortical structures (CVS) in the atmosphere using Eulerian vortex identification methods. The implementation includes calculations of Q-criterion, Δ-criterion, $\lambda_2$-criterion, swirling strength ($\lambda_{ci}$), and Rortex criteria based on numerical atmospheric data (accepting 2D or 3D velocity fields). Additionally, functions for computing primary CVS statistics (size, shape, thermodynamic parameters) are provided.
 
 ## Features
 
@@ -74,11 +74,16 @@ Based on the discriminant of the velocity gradient tensor $\nabla u$:
 ### 3. $\lambda_2$-Criterion
 Identifies vortices as connected regions with negative second eigenvalue $\lambda_2$ of $S^2 + \Omega^2$.
 
-### 4. Swirling Strength ($\lambda_ci$)
+### 4. Swirling Strength ($\lambda_{ci}$)
 The imaginary part of the complex eigenvalue pair of the velocity gradient tensor.
 
 ### 5. Rortex Criterion
 Measures the local rigid rotation part of the velocity gradient, providing both magnitude and direction.
+```math
+R = \boldsymbol{\omega} \cdot \mathbf{u_r} - \sqrt{(\boldsymbol{\omega} \cdot \mathbf{u_r})^2 - 4 \lambda_{ci}^2},
+\mathbf{R} = R \cdot \mathbf{u_r}
+```
+where $\boldsymbol{\omega}$ is the vorticity vector, $\mathbf{u_r}$ - normalized eigenvector of $\nabla \mathbf{u}$ and $\lambda_{ci}$ is the swirling strength criterion. The vortex region is a region, where $R \neq 0$.
 
 ## Output Format
 
