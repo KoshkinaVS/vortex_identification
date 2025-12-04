@@ -66,7 +66,7 @@ Q = \frac{1}{2}(||\Omega||^2 - ||S||^2)
 where $\Omega$ is the vorticity tensor and $S$ is the strain rate tensor.
 
 ### 2. Δ-Criterion
-Based on the discriminant of the velocity gradient tensor:
+Based on the discriminant of the velocity gradient tensor $\nabla u$:
 ```math
 \Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla u)}{2}\right)^2
 ```
