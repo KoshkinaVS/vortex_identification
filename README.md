@@ -95,8 +95,8 @@ where $\vec{\omega}$ is the vorticity vector, $\vec{u_r}$ - normalized eigenvect
 ## Output Format
 
 Results are saved in NetCDF format with the following structure:
-- Dimensions: `time`, `level`, `lat`, `lon`
-- Variables: Computed criteria arrays, vortex masks, cluster labels
+- Dimensions: `time`, `level`, `y`, `x`
+- Variables: Computed criteria arrays, vortex mask (Rortex), center positions, cluster labels
 - Attributes: Metadata including calculation parameters and data sources
 
 
