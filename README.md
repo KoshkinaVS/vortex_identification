@@ -61,18 +61,18 @@ This script produces NetCDF files containing computed criteria arrays for furthe
 ### 1. Q-Criterion
 Identifies vortices as regions where the rotation rate tensor dominates the strain rate tensor:
 ```math
-\[ Q = \frac{1}{2}(||\Omega||^2 - ||S||^2) \]
+Q = \frac{1}{2}(||\Omega||^2 - ||S||^2)
 ```
-where \(\Omega\) is the vorticity tensor and \(S\) is the strain rate tensor.
+where $\Omega$ is the vorticity tensor and $S$ is the strain rate tensor.
 
 ### 2. Δ-Criterion
 Based on the discriminant of the velocity gradient tensor:
 ```math
-\[ \Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla u)}{2}\right)^2 \]
+\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla u)}{2}\right)^2
 ```
 
 ### 3. λ₂-Criterion
-Identifies vortices as connected regions with negative second eigenvalue of \(S^2 + \Omega^2\).
+Identifies vortices as connected regions with negative second eigenvalue of $S^2 + \Omega^2$.
 
 ### 4. Swirling Strength (λ_ci)
 The imaginary part of the complex eigenvalue pair of the velocity gradient tensor.
