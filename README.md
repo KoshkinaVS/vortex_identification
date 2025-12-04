@@ -4,7 +4,7 @@ Implementation of Eulerian vortex identification criteria for atmospheric cohere
 
 ## Overview
 
-This repository provides tools for analyzing mesoscale coherent vortical structures (CVS) in the atmosphere using Eulerian vortex identification methods. The implementation includes calculations of Q-criterion, Δ-criterion, λ₂-criterion, swirling strength (λ_ci), and Rortex criteria based on numerical atmospheric data (accepting 2D or 3D velocity fields). Additionally, functions for computing primary CVS statistics (size, shape, thermodynamic parameters) are provided.
+This repository provides tools for analyzing mesoscale coherent vortical structures (CVS) in the atmosphere using Eulerian vortex identification methods. The implementation includes calculations of Q-criterion, Δ-criterion, $\lambda_2$-criterion, swirling strength ($\lambda_ci$), and Rortex criteria based on numerical atmospheric data (accepting 2D or 3D velocity fields). Additionally, functions for computing primary CVS statistics (size, shape, thermodynamic parameters) are provided.
 
 ## Features
 
@@ -71,10 +71,10 @@ Based on the discriminant of the velocity gradient tensor $\nabla u$:
 \Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{\det(\nabla u)}{2}\right)^2
 ```
 
-### 3. λ₂-Criterion
-Identifies vortices as connected regions with negative second eigenvalue of $S^2 + \Omega^2$.
+### 3. $\lambda_2$-Criterion
+Identifies vortices as connected regions with negative second eigenvalue $\lambda_2$ of $S^2 + \Omega^2$.
 
-### 4. Swirling Strength (λ_ci)
+### 4. Swirling Strength ($\lambda_ci$)
 The imaginary part of the complex eigenvalue pair of the velocity gradient tensor.
 
 ### 5. Rortex Criterion
