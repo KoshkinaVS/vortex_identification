@@ -16,7 +16,7 @@ This repository provides tools for analyzing mesoscale coherent vortical structu
   - Rortex criterion
 
 - **Data Support**:
-  - Loading capabilities for NAAD (North Atlantic Atmospheric Database) and ERA5 (ECMWF Reanalysis v5) datasets
+  - Loading capabilities for WRF, [NAAD](https://naad.ocean.ru/) and [ERA5](https://www.ecmwf.int/en/forecasts/dataset/ecmwf-reanalysis-v5) datasets
   - Processing of 2D and 3D velocity fields
 
 - **Post-processing**:
@@ -43,9 +43,6 @@ vortex_identification/
 # Clone the repository
 git clone https://github.com/yourusername/vortex_identification.git
 cd vortex_identification
-
-# Install required dependencies
-pip install -r requirements.txt
 ```
 
 Dependencies include: `numpy`, `scipy`, `xarray`, `netCDF4`, `scikit-learn`, `matplotlib`
@@ -54,49 +51,10 @@ Dependencies include: `numpy`, `scipy`, `xarray`, `netCDF4`, `scikit-learn`, `ma
 
 ### Basic Workflow
 
-1. **Load Data**:
-```python
-from vortex_dir.load_data import load_naad_data, load_era5_data
-
-# Load NAAD data
-data = load_naad_data("path/to/naad_file.nc")
-
-# Load ERA5 data
-data = load_era5_data("path/to/era5_file.nc")
-```
-
-2. **Compute Vortex Criteria**:
-```python
-from vortex_dir.compute_criteria import compute_q, compute_delta, compute_lambda2, compute_swirling_strength, compute_rortex
-
-# Assuming u, v, w are velocity component arrays with shape (time, level, y, x)
-q_criterion = compute_q(u, v, w)
-delta_criterion = compute_delta(u, v, w)
-rortex = compute_rortex(u, v, w)
-```
-
-**Note**: Functions are optimized for arrays with shape `(time, level, y, x)`.
-
-3. **Post-process Results**:
-```python
-from vortex_dir.vortex_processing import clustering_DBSCAN, get_stat
-
-# Cluster identified vortices using DBSCAN
-labels = clustering_DBSCAN(vortex_mask, eps=0.5, min_samples=10)
-
-# Calculate vortex statistics
-statistics = get_stat(vortex_mask, labels, additional_fields=['temperature', 'vorticity'])
-```
-
-**Note**: Post-processing functions are optimized for arrays with shape `(y, x)`.
 
 ### Example Application
 
-The `examples/compute_rortex_year.py` script demonstrates applying the Rortex criterion to NAAD HiRes data:
-
-```bash
-python examples/compute_rortex_year.py --input data/naad_hires.nc --output results/rortex_output.nc
-```
+The `examples/compute_rortex_year.py` script demonstrates applying the Rortex criterion to NAAD HiRes data.
 
 This script produces NetCDF files containing computed criteria arrays for further analysis.
 
@@ -127,17 +85,6 @@ Results are saved in NetCDF format with the following structure:
 - Variables: Computed criteria arrays, vortex masks, cluster labels
 - Attributes: Metadata including calculation parameters and data sources
 
-## Visualization
-
-Basic visualization functions are provided in `show_vortex.py`:
-
-```python
-from vortex_dir.show_vortex import plot_vortex_field
-
-plot_vortex_field(vortex_mask, background_field, save_path='vortex_plot.png')
-```
-
-**Note**: Visualization functions require refinement and customization for specific use cases.
 
 ## Citing This Work
 
@@ -152,26 +99,12 @@ If you use this software in your research, please cite:
 }
 ```
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
-
-- NAAD (North Atlantic Atmospheric Database) team for data access
-- ECMWF for ERA5 reanalysis data
-- Contributors and reviewers of the vortex identification methods
 
 ## Contact
 
-For questions and support, please open an issue on GitHub or contact [your.email@example.com].
+For questions and support, please open an issue on GitHub or contact koshkina.vs@phystech.edu.
