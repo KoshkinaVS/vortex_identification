@@ -12,7 +12,7 @@ This repository provides tools for analyzing mesoscale coherent vortical structu
   - Q-criterion
   - Δ-criterion
   - λ₂-criterion
-  - Swirling strength (λ_ci)
+  - Swirling strength ($\lambda_{ci}$)
   - Rortex criterion
 
 - **Data Support**:
@@ -74,7 +74,7 @@ Based on the discriminant of the velocity gradient tensor $\nabla \vec{u}$:
 ### 3. $\lambda_2$-Criterion
 Identifies vortices as connected regions with negative second eigenvalue $\lambda_2$ of $S^2 + \Omega^2$:
 ```math
-\lambda_2 > 0
+\lambda_2 < 0
 ```
 
 ### 4. Swirling Strength ($\lambda_{ci}$)
