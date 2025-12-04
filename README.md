@@ -80,8 +80,8 @@ The imaginary part of the complex eigenvalue pair of the velocity gradient tenso
 ### 5. Rortex Criterion
 Measures the local rigid rotation part of the velocity gradient, providing both magnitude and direction.
 ```math
-R = \boldsymbol{\omega} \cdot \mathbf{u_r} - \sqrt{(\boldsymbol{\omega} \cdot \mathbf{u_r})^2 - 4 \lambda_{ci}^2},
-\mathbf{R} = R \cdot \mathbf{u_r}
+R = \vec{\omega} \cdot \vec{u_r} - \sqrt{(\vec{\omega} \cdot \vec{u_r})^2 - 4 \lambda_{ci}^2},
+\vec{R} = R \cdot \vec{u_r}
 ```
 where $\boldsymbol{\omega}$ is the vorticity vector, $\mathbf{u_r}$ - normalized eigenvector of $\nabla \mathbf{u}$ and $\lambda_{ci}$ is the swirling strength criterion. The vortex region is a region, where $R \neq 0$.
 
