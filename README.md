@@ -4,7 +4,7 @@ Implementation of Eulerian vortex identification criteria for atmospheric cohere
 
 ## Overview
 
-This repository provides tools for analyzing mesoscale coherent vortical structures (CVS) in the atmosphere using Eulerian vortex identification methods. The implementation includes calculations of Q-criterion, Δ-criterion, $\lambda_2$-criterion, swirling strength ($\lambda_{ci}$), and Rortex criteria based on numerical atmospheric data (accepting 2D or 3D velocity fields). Additionally, functions for computing primary CVS statistics (size, shape, thermodynamic parameters) are provided.
+This repository provides tools for analyzing mesoscale coherent vortical structures (CVS) in the atmosphere using Eulerian vortex identification methods. The implementation includes calculations of Q-criterion, Δ-criterion, $\lambda_2$-criterion, swirling strength ($\lambda_{ci}$), and Rortex criteria based on numerical atmospheric data (accepting 2D or 3D velocity fields). Additionally, functions for saparation of individual vortices and computing primary CVS statistics (size, shape, thermodynamic parameters) are provided.
 
 ## Features
 
